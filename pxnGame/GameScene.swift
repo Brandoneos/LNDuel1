@@ -14,10 +14,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameScore = 0
     let scoreLabel = SKLabelNode()
     
+    var livesNumber = 3
+    var livesLabel = SKLabelNode()
+    
+    var levelNumber = 0
     
     let player = SKSpriteNode(imageNamed: "rei3")
     
     var gameArea:CGRect
+    
+    enum gameState {
+        //state machine
+        case preGame //Game state is before the start of the game
+        case inGame // Game state is during the game
+        case afterGame // Game state is after the game
+        
+    }
+    
+    var currentGameState = gameState.inGame
     
     struct PhysicsCategories{
         static let None : UInt32 = 0
@@ -93,13 +107,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        self.addChild(bullet)
         
         scoreLabel.text = "Score: 0"
-//        scoreLabel.fontName = ""
+        scoreLabel.fontName = "American Typewriter Bold"
         scoreLabel.fontSize = 70
         scoreLabel.fontColor = SKColor.white
         scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-        scoreLabel.position = CGPoint(x: self.size.width * 0.25, y: self.size.height * 0.9)
+        scoreLabel.position = CGPoint(x: self.size.width * 0.23, y: self.size.height * 0.9)
         scoreLabel.zPosition = 100
         self.addChild(scoreLabel)
+        
+        livesLabel.text = "Lives: 3"
+        livesLabel.fontName = "American Typewriter Bold"
+        livesLabel.fontSize = 70
+        livesLabel.fontColor = SKColor.white
+        livesLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
+        livesLabel.position = CGPoint(x: self.size.width * 0.77, y: self.size.height * 0.9)
+        livesLabel.zPosition = 100
+        self.addChild(livesLabel)
         
         
         
@@ -107,9 +130,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func loseLife() {
+        livesNumber -= 1
+        livesLabel.text = "Lives: \(livesNumber)"
+        
+        let scaleUp = SKAction.scale(to: 1.5, duration: 0.2)
+        let scaleDown = SKAction.scale(to: 1, duration: 0.2)
+        let scaleSequence = SKAction.sequence([scaleUp,scaleDown])
+        livesLabel.run(scaleSequence)
+        
+        if livesNumber == 0 {
+            runGameOver()
+        }
+        
+    }
+    
     func addScore() {
         gameScore += 1
         scoreLabel.text = "Score: \(gameScore)"
+        
+        if gameScore == 10 || gameScore == 25 || gameScore == 50{
+            startNewLevel()
+        }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -142,8 +184,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             body1.node?.removeFromParent()
             body2.node?.removeFromParent()
-            
-            
+            //loseLife function
+            livesNumber = 0
+            livesLabel.text = "Lives: 0"
+            let scaleUp = SKAction.scale(to: 1.5, duration: 0.2)
+            let scaleDown = SKAction.scale(to: 1, duration: 0.2)
+            let scaleSequence = SKAction.sequence([scaleUp,scaleDown])
+            livesLabel.run(scaleSequence)
+            //
+            runGameOver()
         }
         if body1.categoryBitMask == PhysicsCategories.Bullet && body2.categoryBitMask == PhysicsCategories.Enemy && (body2.node?.position.y)! < self.size.height {
             //if the bullet has hit the enemy
@@ -168,7 +217,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 spawnExplosion(spawnPosition: body1.node!.position)
             }
             body1.node?.removeFromParent()
-            
+            loseLife()
         }
             
         
@@ -195,11 +244,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startNewLevel() {
         
+        levelNumber += 1
+        
+        if self.action(forKey: "spawnEnemies") != nil {
+            self.removeAction(forKey: "spawningEnemies")
+        }
+        
+        var levelDuration = TimeInterval()
+        
+        switch levelNumber {
+        case 1: levelDuration = 1.2
+        case 2: levelDuration = 1.0
+        case 3: levelDuration = 0.8
+        case 4: levelDuration = 0.5
+            
+        default: levelDuration = 0.5
+            print("Cannot find level info")
+        }
+        
         let spawn = SKAction.run(spawnRat)
-        let waitToSpawn = SKAction.wait(forDuration: 1)
-        let spawnSequence = SKAction.sequence([spawn,waitToSpawn])
+        let waitToSpawn = SKAction.wait(forDuration: levelDuration)
+        let spawnSequence = SKAction.sequence([waitToSpawn,spawn])
         let spawnForever = SKAction.repeatForever(spawnSequence)
-        self.run(spawnForever)
+        self.run(spawnForever, withKey: "spawningEnemies")
         
         
         
@@ -208,6 +275,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fireBullet() {
         let bullet  = SKSpriteNode(imageNamed: "ghost")
+        bullet.name = "Bullet"
         bullet.setScale(0.3)
         bullet.position = player.position
         bullet.zPosition = 1
@@ -226,6 +294,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func runGameOver() {
+        
+        currentGameState = gameState.afterGame
+        
+        self.removeAllActions()
+        
+        self.enumerateChildNodes(withName: "Bullet") {
+            //makes a list of all the bullets(enumerate)
+            bullet, stop in
+            //calls all of the bullets on the list as "bullet"
+            
+            bullet.removeAllActions()
+            
+        }
+        
+        self.enumerateChildNodes(withName: "Enemy"){
+            enemy, stop in
+            
+            enemy.removeAllActions()
+        }
+        
+    }
+    
     func spawnRat() {
         let randomXStart = random(min: gameArea.minX, max: gameArea.maxX)
         let randomXEnd = random(min: gameArea.minX, max: gameArea.maxX)
@@ -234,6 +325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let endPoint = CGPoint(x: randomXEnd, y: -self.size.height * 0.2)
         
         let enemy = SKSpriteNode(imageNamed: "rat")
+        enemy.name = "Enemy"
         enemy.setScale(0.5)
         enemy.position = startPoint
         enemy.zPosition = 2
@@ -242,12 +334,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.physicsBody!.categoryBitMask = PhysicsCategories.Enemy
         enemy.physicsBody!.collisionBitMask = PhysicsCategories.None
         enemy.physicsBody!.contactTestBitMask = PhysicsCategories.Player | PhysicsCategories.Bullet | PhysicsCategories.Mainframe
+        
         self.addChild(enemy)
         
         let moveEnemy = SKAction.move(to: endPoint, duration: 1.5)
         let deleteEnemy = SKAction.removeFromParent()
-        let enemySequence = SKAction.sequence([moveEnemy, deleteEnemy])
-        enemy.run(enemySequence)
+//      let loseLifeAction = SKAction.run(loseLife)
+        let enemySequence = SKAction.sequence([moveEnemy, deleteEnemy]) // could add loseLifeAction after deleteEnemy
+        if currentGameState == gameState.inGame {
+            enemy.run(enemySequence)
+        }
+        
         
         let dx = endPoint.x - startPoint.x
         let dy = endPoint.y - startPoint.y
@@ -259,7 +356,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        fireBullet()
+        
+        if currentGameState == gameState.inGame {
+            fireBullet()
+        }
+            
+        
         
         
     }
@@ -271,7 +373,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let amountDragged = pointOfTouch.x - previousPointOfTouch.x
             
-            player.position.x += amountDragged
+            if currentGameState == gameState.inGame {
+                player.position.x += amountDragged
+            }
+     
             
             //makes sprite disappear
 //            if (player.position.x > gameArea.maxX - player.size.width/(5*2) ) {
