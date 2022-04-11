@@ -8,10 +8,10 @@
 import SpriteKit
 import GameplayKit
 
+var gameScore = 0
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    
-    var gameScore = 0
     let scoreLabel = SKLabelNode()
     
     var livesNumber = 3
@@ -20,6 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var levelNumber = 0
     
     let player = SKSpriteNode(imageNamed: "rei3")
+    
+    let tapToStartLabel = SKLabelNode()
     
     var gameArea:CGRect
     
@@ -31,7 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    var currentGameState = gameState.inGame
+    var currentGameState = gameState.preGame
     
     struct PhysicsCategories{
         static let None : UInt32 = 0
@@ -70,6 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
+        gameScore = 0
         self.physicsWorld.contactDelegate = self
         
         let background = SKSpriteNode(imageNamed: "background")
@@ -80,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         player.setScale(0.2)
-        player.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.2)
+        player.position = CGPoint(x: self.size.width / 2, y: 0 - player.size.height)
         player.zPosition = 2
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody!.affectedByGravity = false
@@ -124,9 +127,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         livesLabel.zPosition = 100
         self.addChild(livesLabel)
         
+        tapToStartLabel.text = "Tap To Begin"
+        tapToStartLabel.fontSize = 100
+        tapToStartLabel.fontName = "American Typewriter Bold"
+        tapToStartLabel.fontColor = SKColor.white
+        tapToStartLabel.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+        tapToStartLabel.zPosition = 1
+        tapToStartLabel.alpha = 0
+        self.addChild(tapToStartLabel)
+        
+        let fadeInAction = SKAction.fadeIn(withDuration: 0.3)
+        tapToStartLabel.run(fadeInAction)
         
         
         startNewLevel()
+        
+    }
+    
+    func startGame() {
+        
+        currentGameState = gameState.inGame
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
+        let deleteAction = SKAction.removeFromParent()
+        let deleteSequence = SKAction.sequence([fadeOutAction,deleteAction])
+        tapToStartLabel.run(deleteSequence)
+        
+        let moveShipOntoScreenAction = SKAction.moveTo(y: self.size.height*0.2, duration: 0.5)
+        let startLevelAction = SKAction.run(startNewLevel)
+        let startGameSequence = SKAction.sequence([moveShipOntoScreenAction,startLevelAction])
+        player.run(startGameSequence)
+        
+    
         
     }
     
@@ -315,7 +346,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemy.removeAllActions()
         }
         
+        let changeSceneAction = SKAction.run(changeScene)
+        let waitToChangeScene = SKAction.wait(forDuration: 1)
+        let changeSceneSequence = SKAction.sequence([waitToChangeScene, changeSceneAction])
+        self.run(changeSceneSequence)
+        
     }
+    
+    func changeScene() {
+        let sceneToMoveTo = GameOverScene(size: self.size)
+        sceneToMoveTo.scaleMode = self.scaleMode
+        let transition = SKTransition.fade(withDuration: 0.5)
+        
+        self.view!.presentScene(sceneToMoveTo, transition: transition)
+        
+    }
+    
     
     func spawnRat() {
         let randomXStart = random(min: gameArea.minX, max: gameArea.maxX)
@@ -326,7 +372,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let enemy = SKSpriteNode(imageNamed: "rat")
         enemy.name = "Enemy"
-        enemy.setScale(0.5)
+        enemy.setScale(0.4)
         enemy.position = startPoint
         enemy.zPosition = 2
         enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
@@ -357,7 +403,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        if currentGameState == gameState.inGame {
+        if currentGameState == gameState.preGame {
+            startGame()
+        } else if currentGameState == gameState.inGame {
             fireBullet()
         }
             
