@@ -40,7 +40,7 @@
 
 /* Begin PBXFileReference section */
 		13CEA4312803B1AA00DDFD74 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
-		F6E4FDC02800C9AF00C8CB50 /* pxnGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pxnGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6E4FDC02800C9AF00C8CB50 /* LNDuel1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LNDuel1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6E4FDC32800C9AF00C8CB50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6E4FDC52800C9AF00C8CB50 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		F6E4FDC72800C9AF00C8CB50 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 		F6E4FDC12800C9AF00C8CB50 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F6E4FDC02800C9AF00C8CB50 /* pxnGame.app */,
+				F6E4FDC02800C9AF00C8CB50 /* LNDuel1.app */,
 				F6E4FDD92800C9B100C8CB50 /* pxnGameTests.xctest */,
 				F6E4FDE32800C9B100C8CB50 /* pxnGameUITests.xctest */,
 			);
@@ -151,7 +151,7 @@
 			);
 			name = pxnGame;
 			productName = pxnGame;
-			productReference = F6E4FDC02800C9AF00C8CB50 /* pxnGame.app */;
+			productReference = F6E4FDC02800C9AF00C8CB50 /* LNDuel1.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F6E4FDD82800C9B100C8CB50 /* pxnGameTests */ = {
@@ -463,8 +463,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = bkim2192.pxnGame;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = bkim2192.LNDuel1;
+				PRODUCT_NAME = LNDuel1;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -492,8 +492,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = bkim2192.pxnGame;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = bkim2192.LNDuel1;
+				PRODUCT_NAME = LNDuel1;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
