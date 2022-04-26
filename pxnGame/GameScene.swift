@@ -74,19 +74,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameScore = 0
         self.physicsWorld.contactDelegate = self
         
-        let background = SKSpriteNode(imageNamed: "background")
+        let background = SKSpriteNode(imageNamed: "background1")
         background.size = self.size
         background.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
         background.zPosition = 0
         self.addChild(background)
         
+        var cardSpaceCon = 29.750015258789062
+        
         let card1 = SKSpriteNode(imageNamed: "cardBackground")
         card1.setScale(1.3)
 //      card1.size = CGSize(width: (self.size.width / 3) - 30, height: (self.size.height / 4) - 20)
 //      card1.position = CGPoint(x: self.size.width / 3 - 60, y: self.size.height / 6)
-        card1.position = CGPoint(x: 0 + card1.size.width * 1.5, y: self.size.height / 6)
+        card1.position = CGPoint(x: 0 + card1.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6)
         card1.zPosition = 1
         self.addChild(card1)
+        
+       
         
         let card2 = SKSpriteNode(imageNamed: "cardBackground")
         card2.setScale(1.3)
@@ -94,12 +98,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         card2.zPosition = 1
         self.addChild(card2)
         
+        
+        
+        
+        
+        
         let card3 = SKSpriteNode(imageNamed: "cardBackground")
         var cardWidth = card3.size.width
         card3.setScale(1.3)
-        card3.position = CGPoint(x: self.size.width - cardWidth , y: self.size.height / 6 + 900)
+        card3.position = CGPoint(x: (self.size.width / 2) + (card3.size.width) + cardSpaceCon, y: self.size.height / 6)
         card3.zPosition = 1
-//        self.addChild(card3)
+        self.addChild(card3)
         
         
     }
