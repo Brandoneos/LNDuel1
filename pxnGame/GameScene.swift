@@ -80,7 +80,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.zPosition = 0
         self.addChild(background)
         
+        var card0 = SKSpriteNode(imageNamed: "cardBackground")
+        card0.setScale(1.3)
         var cardSpaceCon = 29.750015258789062
+        var cardSpace = (((self.size.width / 2) - (card0.size.width * 1.5 + cardSpaceCon)) - card0.size.width) / 2
+        
         
         let card1 = SKSpriteNode(imageNamed: "cardBackground")
         card1.setScale(1.3)
@@ -97,8 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         card2.position = CGPoint(x: self.size.width / 2, y: self.size.height / 6)
         card2.zPosition = 1
         self.addChild(card2)
-        
-        
+
         
         
         
