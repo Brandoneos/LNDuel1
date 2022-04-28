@@ -16,7 +16,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var livesNumber = 3
     
-    
+    let Nlabel1 = SKLabelNode()
+    let Llabel1 = SKLabelNode()
+    let Nlabel2 = SKLabelNode()
+    let Llabel2 = SKLabelNode()
+    let Nlabel3 = SKLabelNode()
+    let Llabel3 = SKLabelNode()
     
     
     
@@ -85,7 +90,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         card0.setScale(1.3)
         var cardSpaceCon = 29.750015258789062
         var cardSpace = (((self.size.width / 2) - (card0.size.width * 1.5 + cardSpaceCon)) - card0.size.width) / 2
-        
+        var testCS = ((((self.size.width / 2) - (card0.size.width * 1.5)) - card0.size.width) / 2)
+//        print(cardSpaceCon)
+//        print(cardSpace)
+//        print(testCS)
         
         //Player Cards
         
@@ -93,20 +101,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         card1.setScale(1.3)
 //      card1.size = CGSize(width: (self.size.width / 3) - 30, height: (self.size.height / 4) - 20)
 //      card1.position = CGPoint(x: self.size.width / 3 - 60, y: self.size.height / 6)
-        card1.position = CGPoint(x: 0 + card1.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6)
+        card1.position = CGPoint(x: 0 + card1.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6.5)
         card1.zPosition = 1
         self.addChild(card1)
     
         let card2 = SKSpriteNode(imageNamed: "cardBackground")
         card2.setScale(1.3)
-        card2.position = CGPoint(x: self.size.width / 2, y: self.size.height / 6)
+        card2.position = CGPoint(x: self.size.width / 2, y: self.size.height / 6.5)
         card2.zPosition = 1
         self.addChild(card2)
 
         let card3 = SKSpriteNode(imageNamed: "cardBackground")
         var cardWidth = card3.size.width
         card3.setScale(1.3)
-        card3.position = CGPoint(x: (self.size.width / 2) + (card3.size.width) + cardSpaceCon, y: self.size.height / 6)
+        card3.position = CGPoint(x: (self.size.width / 2) + (card3.size.width) + cardSpaceCon, y: self.size.height / 6.5 )
         card3.zPosition = 1
         self.addChild(card3)
         
@@ -115,21 +123,77 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let card4 = SKSpriteNode(imageNamed: "cardBackground")
         card4.setScale(1.3)
-        card4.position = CGPoint(x: 0 + card1.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6 * 5)
+        card4.position = CGPoint(x: 0 + card4.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6.5 * 5.5)
         card1.zPosition = 1
         self.addChild(card4)
     
         let card5 = SKSpriteNode(imageNamed: "cardBackground")
         card5.setScale(1.3)
-        card5.position = CGPoint(x: self.size.width / 2, y: self.size.height / 6 * 5)
+        card5.position = CGPoint(x: self.size.width / 2, y: self.size.height / 6.5 * 5.5)
         card5.zPosition = 1
         self.addChild(card5)
 
         let card6 = SKSpriteNode(imageNamed: "cardBackground")
         card6.setScale(1.3)
-        card6.position = CGPoint(x: (self.size.width / 2) + (card6.size.width) + cardSpaceCon, y: self.size.height / 6 * 5)
+        card6.position = CGPoint(x: (self.size.width / 2) + (card6.size.width) + cardSpaceCon, y: self.size.height / 6.5 * 5.5)
         card6.zPosition = 1
         self.addChild(card6)
+        
+        Nlabel1.text = "\(5)"
+        Nlabel1.fontName = "American Typewriter Bold"
+        Nlabel1.fontSize = 120
+        Nlabel1.fontColor = SKColor.green
+        Nlabel1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Nlabel1.position = CGPoint(x: card1.position.x, y: card1.position.y + card1.size.width / 4)
+        Nlabel1.zPosition = 2
+        self.addChild(Nlabel1)
+        
+        Llabel1.text = "\("A")"
+        Llabel1.fontName = "American Typewriter Bold"
+        Llabel1.fontSize = 120
+        Llabel1.fontColor = SKColor.green
+        Llabel1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Llabel1.position = CGPoint(x: card1.position.x, y: card1.position.y - card1.size.width / 2.2)
+        Llabel1.zPosition = 2
+        self.addChild(Llabel1)
+        
+        Nlabel2.text = "\(5)"
+        Nlabel2.fontName = "American Typewriter Bold"
+        Nlabel2.fontSize = 120
+        Nlabel2.fontColor = SKColor.green
+        Nlabel2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Nlabel2.position = CGPoint(x: card2.position.x, y: card2.position.y + card2.size.width / 4)
+        Nlabel2.zPosition = 2
+        self.addChild(Nlabel2)
+        
+        Llabel2.text = "\("A")"
+        Llabel2.fontName = "American Typewriter Bold"
+        Llabel2.fontSize = 120
+        Llabel2.fontColor = SKColor.green
+        Llabel2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Llabel2.position = CGPoint(x: card2.position.x, y: card2.position.y - card2.size.width / 2.2)
+        Llabel2.zPosition = 2
+        self.addChild(Llabel2)
+        
+        Nlabel3.text = "\(5)"
+        Nlabel3.fontName = "American Typewriter Bold"
+        Nlabel3.fontSize = 120
+        Nlabel3.fontColor = SKColor.green
+        Nlabel3.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Nlabel3.position = CGPoint(x: card3.position.x, y: card3.position.y + card3.size.width / 4)
+        Nlabel3.zPosition = 2
+        self.addChild(Nlabel3)
+        
+        Llabel3.text = "\("A")"
+        Llabel3.fontName = "American Typewriter Bold"
+        Llabel3.fontSize = 120
+        Llabel3.fontColor = SKColor.green
+        Llabel3.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Llabel3.position = CGPoint(x: card3.position.x, y: card3.position.y - card3.size.width / 2.2)
+        Llabel3.zPosition = 2
+        self.addChild(Llabel3)
+        
+        
     }
     
     
