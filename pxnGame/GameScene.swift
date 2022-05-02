@@ -23,8 +23,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let Nlabel3 = SKLabelNode()
     let Llabel3 = SKLabelNode()
     
+    let card0 = SKSpriteNode(imageNamed: "cardBackground")
+    let card1 = SKSpriteNode(imageNamed: "cardBackground")
+    let card2 = SKSpriteNode(imageNamed: "cardBackground")
+    let card3 = SKSpriteNode(imageNamed: "cardBackground")
+    let card4 = SKSpriteNode(imageNamed: "cardBackground")
+    let card5 = SKSpriteNode(imageNamed: "cardBackground")
+    let card6 = SKSpriteNode(imageNamed: "cardBackground")
     
-    
+    var duelbutton = SKSpriteNode(imageNamed: "duel")
     
     
     
@@ -86,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(background)
         
         //test card
-        var card0 = SKSpriteNode(imageNamed: "cardBackground")
+        
         card0.setScale(1.3)
         var cardSpaceCon = 29.750015258789062
         var cardSpace = (((self.size.width / 2) - (card0.size.width * 1.5 + cardSpaceCon)) - card0.size.width) / 2
@@ -97,7 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Player Cards
         
-        let card1 = SKSpriteNode(imageNamed: "cardBackground")
+        
         card1.setScale(1.3)
 //      card1.size = CGSize(width: (self.size.width / 3) - 30, height: (self.size.height / 4) - 20)
 //      card1.position = CGPoint(x: self.size.width / 3 - 60, y: self.size.height / 6)
@@ -105,13 +112,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         card1.zPosition = 1
         self.addChild(card1)
     
-        let card2 = SKSpriteNode(imageNamed: "cardBackground")
+        
         card2.setScale(1.3)
         card2.position = CGPoint(x: self.size.width / 2, y: self.size.height / 6.5)
         card2.zPosition = 1
         self.addChild(card2)
 
-        let card3 = SKSpriteNode(imageNamed: "cardBackground")
+        
         var cardWidth = card3.size.width
         card3.setScale(1.3)
         card3.position = CGPoint(x: (self.size.width / 2) + (card3.size.width) + cardSpaceCon, y: self.size.height / 6.5 )
@@ -120,19 +127,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Computer // Second Player Cards
         
-        let card4 = SKSpriteNode(imageNamed: "cardBackground")
+        
         card4.setScale(1.3)
         card4.position = CGPoint(x: 0 + card4.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6.5 * 5.5)
         card1.zPosition = 1
         self.addChild(card4)
     
-        let card5 = SKSpriteNode(imageNamed: "cardBackground")
+        
         card5.setScale(1.3)
         card5.position = CGPoint(x: self.size.width / 2, y: self.size.height / 6.5 * 5.5)
         card5.zPosition = 1
         self.addChild(card5)
 
-        let card6 = SKSpriteNode(imageNamed: "cardBackground")
+        
         card6.setScale(1.3)
         card6.position = CGPoint(x: (self.size.width / 2) + (card6.size.width) + cardSpaceCon, y: self.size.height / 6.5 * 5.5)
         card6.zPosition = 1
@@ -196,42 +203,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         var cgr = CGRect(x: card3.position.x, y: card3.position.y, width: card3.size.width, height: card3.size.width / 2)
-        var duelbutton = SKSpriteNode(imageNamed: "duel")
+       
         duelbutton.size = CGSize(width: card3.size.width, height: card3.size.width / 3)
 //        duelbutton.setScale(0.53)
         duelbutton.position = CGPoint(x: card3.position.x, y: card3.position.y + card3.size.height / 2 + duelbutton.size.height)
         duelbutton.zPosition = 2
         self.addChild(duelbutton)
        
-        
-        
-        
-        
-        
-        
     }
     
-    
-  
-    
 
-  
-       
-        
-        
-    
-    
-   
-   
-    
-    
-    
-    
-        
-    
-    
-    
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
 //        if currentGameState == gameState.preGame {
@@ -240,20 +221,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            fireBullet()
 //        }
 //
+        for touch: AnyObject in touches {
+            
+            let pointOfTouch = touch.location(in: self)
+            
+            
+            if card1.contains(pointOfTouch) {
+                Nlabel1.fontColor = .green
+                Llabel1.fontColor = .green
+                Nlabel2.fontColor = .black
+                Llabel2.fontColor = .black
+                Nlabel3.fontColor = .black
+                Llabel3.fontColor = .black
+            } else if card2.contains(pointOfTouch) {
+                Nlabel1.fontColor = .black
+                Llabel1.fontColor = .black
+                Nlabel2.fontColor = .green
+                Llabel2.fontColor = .green
+                Nlabel3.fontColor = .black
+                Llabel3.fontColor = .black
+            } else if card3.contains(pointOfTouch) {
+                Nlabel1.fontColor = .black
+                Llabel1.fontColor = .black
+                Nlabel2.fontColor = .black
+                Llabel2.fontColor = .black
+                Nlabel3.fontColor = .green
+                Llabel3.fontColor = .green
+            } else if duelbutton.contains(pointOfTouch) {
+                
+            }
+            
+            
+        }
+        
         
         
         
     }
+    
+    
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
             
-//            let pointOfTouch = touch.location(in: self)
+            
 //            let previousPointOfTouch = touch.previousLocation(in: self)
 //
 //            let amountDragged = pointOfTouch.x - previousPointOfTouch.x
             
             if currentGameState == gameState.inGame {
-                
+               
             }
      
             
