@@ -120,7 +120,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Computer // Second Player Cards
         
-        
         let card4 = SKSpriteNode(imageNamed: "cardBackground")
         card4.setScale(1.3)
         card4.position = CGPoint(x: 0 + card4.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6.5 * 5.5)
@@ -142,7 +141,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Nlabel1.text = "\(5)"
         Nlabel1.fontName = "American Typewriter Bold"
         Nlabel1.fontSize = 120
-        Nlabel1.fontColor = SKColor.green
+        Nlabel1.fontColor = SKColor.black
         Nlabel1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         Nlabel1.position = CGPoint(x: card1.position.x, y: card1.position.y + card1.size.width / 4)
         Nlabel1.zPosition = 2
@@ -151,7 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Llabel1.text = "\("A")"
         Llabel1.fontName = "American Typewriter Bold"
         Llabel1.fontSize = 120
-        Llabel1.fontColor = SKColor.green
+        Llabel1.fontColor = SKColor.black
         Llabel1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         Llabel1.position = CGPoint(x: card1.position.x, y: card1.position.y - card1.size.width / 2.2)
         Llabel1.zPosition = 2
@@ -160,7 +159,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Nlabel2.text = "\(5)"
         Nlabel2.fontName = "American Typewriter Bold"
         Nlabel2.fontSize = 120
-        Nlabel2.fontColor = SKColor.green
+        Nlabel2.fontColor = SKColor.black
         Nlabel2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         Nlabel2.position = CGPoint(x: card2.position.x, y: card2.position.y + card2.size.width / 4)
         Nlabel2.zPosition = 2
@@ -169,7 +168,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Llabel2.text = "\("A")"
         Llabel2.fontName = "American Typewriter Bold"
         Llabel2.fontSize = 120
-        Llabel2.fontColor = SKColor.green
+        Llabel2.fontColor = SKColor.black
         Llabel2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         Llabel2.position = CGPoint(x: card2.position.x, y: card2.position.y - card2.size.width / 2.2)
         Llabel2.zPosition = 2
@@ -178,7 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Nlabel3.text = "\(5)"
         Nlabel3.fontName = "American Typewriter Bold"
         Nlabel3.fontSize = 120
-        Nlabel3.fontColor = SKColor.green
+        Nlabel3.fontColor = SKColor.black
         Nlabel3.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         Nlabel3.position = CGPoint(x: card3.position.x, y: card3.position.y + card3.size.width / 4)
         Nlabel3.zPosition = 2
@@ -187,11 +186,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Llabel3.text = "\("A")"
         Llabel3.fontName = "American Typewriter Bold"
         Llabel3.fontSize = 120
-        Llabel3.fontColor = SKColor.green
+        Llabel3.fontColor = SKColor.black
         Llabel3.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         Llabel3.position = CGPoint(x: card3.position.x, y: card3.position.y - card3.size.width / 2.2)
         Llabel3.zPosition = 2
         self.addChild(Llabel3)
+        
+        //Duel Button
+        
+        
+        var cgr = CGRect(x: card3.position.x, y: card3.position.y, width: card3.size.width, height: card3.size.width / 2)
+        var duelbutton = SKSpriteNode(imageNamed: "duel")
+        duelbutton.size = CGSize(width: card3.size.width, height: card3.size.width / 3)
+//        duelbutton.setScale(0.53)
+        duelbutton.position = CGPoint(x: card3.position.x, y: card3.position.y + card3.size.height / 2 + duelbutton.size.height)
+        duelbutton.zPosition = 2
+        self.addChild(duelbutton)
+       
+        
+        
+        
+        
         
         
     }
