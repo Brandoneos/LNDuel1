@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     var livesNumber = 3
+    var selection = 0
     
     let Nlabel1 = SKLabelNode()
     let Llabel1 = SKLabelNode()
@@ -30,7 +31,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let card4 = SKSpriteNode(imageNamed: "cardBackground")
     let card5 = SKSpriteNode(imageNamed: "cardBackground")
     let card6 = SKSpriteNode(imageNamed: "cardBackground")
-    
+    var cardCollection:[SKSpriteNode] = []
+    var testCS:Double = 0.0
     var duelbutton = SKSpriteNode(imageNamed: "duel")
     
     
@@ -74,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 
         super.init(size: size)
-
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -82,7 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-        
+         cardCollection = [card0, card1, card2, card3, card4, card5, card6]
         gameScore = 0
         self.physicsWorld.contactDelegate = self
         
@@ -95,9 +97,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //test card
         
         card0.setScale(1.3)
-        var cardSpaceCon = 29.750015258789062
-        var cardSpace = (((self.size.width / 2) - (card0.size.width * 1.5 + cardSpaceCon)) - card0.size.width) / 2
-        var testCS = ((((self.size.width / 2) - (card0.size.width * 1.5)) - card0.size.width) / 2)
+        
+        
+        testCS = ((((self.size.width / 2) - (card0.size.width * 1.5)) - card0.size.width) / 2)
 //        print(cardSpaceCon)
 //        print(cardSpace)
 //        print(testCS)
@@ -108,7 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         card1.setScale(1.3)
 //      card1.size = CGSize(width: (self.size.width / 3) - 30, height: (self.size.height / 4) - 20)
 //      card1.position = CGPoint(x: self.size.width / 3 - 60, y: self.size.height / 6)
-        card1.position = CGPoint(x: 0 + card1.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6.5)
+        card1.position = CGPoint(x: 0 + card1.size.width * 1.5 + testCS, y: self.size.height / 6.5)
         card1.zPosition = 1
         self.addChild(card1)
     
@@ -121,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var cardWidth = card3.size.width
         card3.setScale(1.3)
-        card3.position = CGPoint(x: (self.size.width / 2) + (card3.size.width) + cardSpaceCon, y: self.size.height / 6.5 )
+        card3.position = CGPoint(x: (self.size.width / 2) + (card3.size.width) + testCS, y: self.size.height / 6.5 )
         card3.zPosition = 1
         self.addChild(card3)
         
@@ -129,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         card4.setScale(1.3)
-        card4.position = CGPoint(x: 0 + card4.size.width * 1.5 + cardSpaceCon, y: self.size.height / 6.5 * 5.5)
+        card4.position = CGPoint(x: 0 + card4.size.width * 1.5 + testCS, y: self.size.height / 6.5 * 5.5)
         card1.zPosition = 1
         self.addChild(card4)
     
@@ -141,7 +143,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         
         card6.setScale(1.3)
-        card6.position = CGPoint(x: (self.size.width / 2) + (card6.size.width) + cardSpaceCon, y: self.size.height / 6.5 * 5.5)
+        card6.position = CGPoint(x: (self.size.width / 2) + (card6.size.width) + testCS, y: self.size.height / 6.5 * 5.5)
         card6.zPosition = 1
         self.addChild(card6)
         
@@ -206,10 +208,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        
         duelbutton.size = CGSize(width: card3.size.width, height: card3.size.width / 3)
 //        duelbutton.setScale(0.53)
-        duelbutton.position = CGPoint(x: card3.position.x, y: card3.position.y + card3.size.height / 2 + duelbutton.size.height)
+        duelbutton.position = CGPoint(x: card3.position.x, y: card3.position.y + card3.position.y / 2 + duelbutton.size.height + testCS + 3)
         duelbutton.zPosition = 2
         self.addChild(duelbutton)
        
+    }
+    
+    func startDuel(s: Int) {
+        
+        let moveCardx = SKAction.moveTo(x: card2.position.x, duration: 1)
+        let moveCardy = SKAction.moveTo(y: card2.position.y + card0.size.height + testCS, duration: 1)
+        let moveY = SKAction.moveBy(x: 0, y: card0.size.height + testCS, duration: 1)
+        let moveLSequence = SKAction.sequence([moveCardx,moveY])
+        let moveSequence = SKAction.sequence([moveCardx,moveCardy])
+        if (s == 1) {
+            card1.run(moveSequence)
+            Nlabel1.run(moveLSequence)
+            Llabel1.run(moveLSequence)
+        } else if (s == 2) {
+            card2.run(moveSequence)
+            Nlabel2.run(moveLSequence)
+            Llabel2.run(moveLSequence)
+        } else if (s == 3) {
+            card3.run(moveSequence)
+            Nlabel3.run(moveLSequence)
+            Llabel3.run(moveLSequence)
+        }
+        
     }
     
 
@@ -227,6 +252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             if card1.contains(pointOfTouch) {
+                selection = 1
                 Nlabel1.fontColor = .green
                 Llabel1.fontColor = .green
                 Nlabel2.fontColor = .black
@@ -234,6 +260,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 Nlabel3.fontColor = .black
                 Llabel3.fontColor = .black
             } else if card2.contains(pointOfTouch) {
+                selection = 2
                 Nlabel1.fontColor = .black
                 Llabel1.fontColor = .black
                 Nlabel2.fontColor = .green
@@ -241,6 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 Nlabel3.fontColor = .black
                 Llabel3.fontColor = .black
             } else if card3.contains(pointOfTouch) {
+                selection = 3
                 Nlabel1.fontColor = .black
                 Llabel1.fontColor = .black
                 Nlabel2.fontColor = .black
@@ -248,6 +276,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 Nlabel3.fontColor = .green
                 Llabel3.fontColor = .green
             } else if duelbutton.contains(pointOfTouch) {
+                print(selection)
+                if (selection != 0) {
+                    startDuel(s: selection)
+                }
                 
             }
             
