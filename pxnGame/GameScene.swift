@@ -23,6 +23,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let Llabel2 = SKLabelNode()
     let Nlabel3 = SKLabelNode()
     let Llabel3 = SKLabelNode()
+    let Nlabel4 = SKLabelNode()
+    let Llabel4 = SKLabelNode()
+    var computerChoiceN:String = "6"
+    var computerChoiceL:String = "B"
     
     let card0 = SKSpriteNode(imageNamed: "cardBackground")
     let card1 = SKSpriteNode(imageNamed: "cardBackground")
@@ -200,6 +204,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Llabel3.position = CGPoint(x: card3.position.x, y: card3.position.y - card3.size.width / 2.2)
         Llabel3.zPosition = 2
         self.addChild(Llabel3)
+        // Computer Labels
+        
+        Nlabel3.text = "\(computerChoiceN)"
+        Nlabel3.fontName = "American Typewriter Bold"
+        Nlabel3.fontSize = 120
+        Nlabel3.fontColor = SKColor.red
+        Nlabel3.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Nlabel3.position = CGPoint(x: card5.position.x, y: card5.position.y + card5.size.width / 4 - card0.size.height - testCS)
+        Nlabel3.zPosition = 2
+        
+        Llabel4.text = "\(computerChoiceL)"
+        Llabel4.fontName = "American Typewriter Bold"
+        Llabel4.fontSize = 120
+        Llabel4.fontColor = SKColor.red
+        Llabel4.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Llabel4.position = CGPoint(x: card5.position.x, y: card5.position.y - card5.size.width / 2.2 - card0.size.height - testCS)
+        Llabel4.zPosition = 2
+        
+        
         
         //Duel Button
         
@@ -213,6 +236,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(duelbutton)
        
     }
+    func computerChooses() {
+        var randInt = Int.random(in: 4...6)
+        let moveCardx = SKAction.moveTo(x: card5.position.x, duration: 1)
+        let moveCardy = SKAction.moveTo(y: card5.position.y - card0.size.height - testCS, duration: 1)
+        let moveSequence = SKAction.sequence([moveCardx,moveCardy])
+        
+        if randInt == 4 {
+            card4.run(moveSequence)
+        } else if randInt == 5 {
+            card5.run(moveSequence)
+        } else if randInt == 6 {
+            card6.run(moveSequence)
+        }
+        
+    }
+    
     
     func startDuel(s: Int) {
         
@@ -234,6 +273,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Nlabel3.run(moveLSequence)
             Llabel3.run(moveLSequence)
         }
+        computerChooses()
+        
+        
         
     }
     
