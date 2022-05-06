@@ -25,8 +25,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let Llabel3 = SKLabelNode()
     let Nlabel4 = SKLabelNode()
     let Llabel4 = SKLabelNode()
-    var computerChoiceN:String = "6"
-    var computerChoiceL:String = "B"
+    var computerChoiceN:String = ""
+    var computerChoiceL:String = ""
     
     let card0 = SKSpriteNode(imageNamed: "cardBackground")
     let card1 = SKSpriteNode(imageNamed: "cardBackground")
@@ -206,13 +206,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(Llabel3)
         // Computer Labels
         
-        Nlabel3.text = "\(computerChoiceN)"
-        Nlabel3.fontName = "American Typewriter Bold"
-        Nlabel3.fontSize = 120
-        Nlabel3.fontColor = SKColor.red
-        Nlabel3.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
-        Nlabel3.position = CGPoint(x: card5.position.x, y: card5.position.y + card5.size.width / 4 - card0.size.height - testCS)
-        Nlabel3.zPosition = 2
+        Nlabel4.text = "\(computerChoiceN)"
+        Nlabel4.fontName = "American Typewriter Bold"
+        Nlabel4.fontSize = 120
+        Nlabel4.fontColor = SKColor.red
+        Nlabel4.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        Nlabel4.position = CGPoint(x: card5.position.x, y: card5.position.y + card5.size.width / 4 - card0.size.height - testCS)
+        Nlabel4.zPosition = 2
+        self.addChild(Nlabel4)
         
         Llabel4.text = "\(computerChoiceL)"
         Llabel4.fontName = "American Typewriter Bold"
@@ -220,7 +221,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Llabel4.fontColor = SKColor.red
         Llabel4.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         Llabel4.position = CGPoint(x: card5.position.x, y: card5.position.y - card5.size.width / 2.2 - card0.size.height - testCS)
+        //x : card5.position.x
+        //y : card5.position.y - card5.size.width / 2.2 - card0.size.height - testCS
         Llabel4.zPosition = 2
+        self.addChild(Llabel4)
         
         
         
@@ -234,7 +238,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         duelbutton.position = CGPoint(x: card3.position.x, y: card3.position.y + card3.position.y / 2 + duelbutton.size.height + testCS + 3)
         duelbutton.zPosition = 2
         self.addChild(duelbutton)
+        
+    }
+    
+    func choose3Letters() -> [String] {
+        //total letter 13
+        var letter3:[String] = []
+        
+        var letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+        
        
+        
+        var randL = Int.random(in: 0...25)
+        var randomL = letters[randL]
+        
+        letter3.append(randomL)
+        
+        
+        
+        return letter3
+        
+        
+        
+    }
+    func choose3Numbers() -> [Int] {
+        //total number: 14
+        var number3:[Int] = []
+        var numbers = [0,1,2,3,4,5,6,7,8,9]
+        var randN = Int.random(in: 0...9)
+        number3.append(randN)
+        var dif = 14 - randN
+        var halfInt = dif / 2
+        if (randN % 2 == 1) {
+            halfInt += 1
+        }
+        
+        
+        
+        return number3
     }
     func computerChooses() {
         var randInt = Int.random(in: 4...6)
