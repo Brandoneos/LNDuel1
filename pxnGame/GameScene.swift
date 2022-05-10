@@ -16,7 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var livesNumber = 3
     var selection = 0
-    
+    var startedDuelBool: Bool = false
     let Nlabel1 = SKLabelNode()
     let Llabel1 = SKLabelNode()
     let Nlabel2 = SKLabelNode()
@@ -268,16 +268,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var randN = Int.random(in: 0...9)
         number3.append(randN)
         var dif = 14 - randN
-        var halfInt = dif / 2
-        if (randN % 2 == 1) {
-            halfInt += 1
+
+        var range2 = 0...dif
+        var miniDif = dif - 9
+
+        if miniDif > 0 {
+            range2 = miniDif...9
+        } else if miniDif == 1 {
+            range2 = 0...9
+        } else if miniDif < 0 {
+            range2 = 0...9+miniDif
+        } else {
+            print("error")
         }
+
+        var n2 = Int.random(in: range2)
+
+        //var halfInt = dif / 2
+        //if (dif % 2 == 1) {
+        //    halfInt += 1
+        //}
+        //print(halfInt)
+
+        var n3 = dif - n2
+        number3.append(n2)
+        number3.append(n3)
         
         
         
         return number3
     }
-    func computerChooses() {
+    func computerChooses(onlyOnce: Bool) {
+        if onlyOnce {
+            return
+        }
+        var cChoices = choose3Numbers()
+        var c4 = 0
+        var c5 = 0
+        var c6 = 0
         var randInt = Int.random(in: 4...6)
         let moveCardx = SKAction.moveTo(x: card5.position.x, duration: 1)
         let moveCardy = SKAction.moveTo(y: card5.position.y - card0.size.height - testCS, duration: 1)
@@ -285,22 +313,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if randInt == 4 {
             card4.run(moveSequence)
+            c4 = cChoices[0]
+            
+            Nlabel4.text = "\(c4)"
         } else if randInt == 5 {
             card5.run(moveSequence)
+            c5 = cChoices[1]
+            
+            Nlabel4.text = "\(c5)"
         } else if randInt == 6 {
             card6.run(moveSequence)
+            c6 = cChoices[2]
+            
+            Nlabel4.text = "\(c6)"
         }
         
     }
     
     
     func startDuel(s: Int) {
-        
+        computerChooses(onlyOnce: startedDuelBool)
+        startedDuelBool = true
         let moveCardx = SKAction.moveTo(x: card2.position.x, duration: 1)
         let moveCardy = SKAction.moveTo(y: card2.position.y + card0.size.height + testCS, duration: 1)
         let moveY = SKAction.moveBy(x: 0, y: card0.size.height + testCS, duration: 1)
         let moveLSequence = SKAction.sequence([moveCardx,moveY])
         let moveSequence = SKAction.sequence([moveCardx,moveCardy])
+        
         if (s == 1) {
             card1.run(moveSequence)
             Nlabel1.run(moveLSequence)
@@ -314,7 +353,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Nlabel3.run(moveLSequence)
             Llabel3.run(moveLSequence)
         }
-        computerChooses()
+        
         
         
         
