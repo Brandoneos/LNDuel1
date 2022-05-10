@@ -51,7 +51,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    enum duelState {
+        case notStarted
+        case phase1
+        case phase2
+        case phase3
+        case endPhase
+    }
+    
     var currentGameState = gameState.inGame
+    var duelState = duelState.notStarted
     
     struct PhysicsCategories{
         static let None : UInt32 = 0
@@ -298,8 +307,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         return number3
     }
-    func computerChooses(onlyOnce: Bool) {
-        if onlyOnce {
+    func computerChooses() {
+        if duelState.notStarted = duelState.notStarted{
             return
         }
         var cChoices = choose3Numbers()
@@ -333,28 +342,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startDuel(s: Int) {
         computerChooses(onlyOnce: startedDuelBool)
-        startedDuelBool = true
-        let moveCardx = SKAction.moveTo(x: card2.position.x, duration: 1)
-        let moveCardy = SKAction.moveTo(y: card2.position.y + card0.size.height + testCS, duration: 1)
-        let moveY = SKAction.moveBy(x: 0, y: card0.size.height + testCS, duration: 1)
-        let moveLSequence = SKAction.sequence([moveCardx,moveY])
-        let moveSequence = SKAction.sequence([moveCardx,moveCardy])
         
-        if (s == 1) {
-            card1.run(moveSequence)
-            Nlabel1.run(moveLSequence)
-            Llabel1.run(moveLSequence)
-        } else if (s == 2) {
-            card2.run(moveSequence)
-            Nlabel2.run(moveLSequence)
-            Llabel2.run(moveLSequence)
-        } else if (s == 3) {
-            card3.run(moveSequence)
-            Nlabel3.run(moveLSequence)
-            Llabel3.run(moveLSequence)
+        if (startedDuelBool == false) {
+            let moveCardx = SKAction.moveTo(x: card2.position.x, duration: 1)
+            let moveCardy = SKAction.moveTo(y: card2.position.y + card0.size.height + testCS, duration: 1)
+            let moveY = SKAction.moveBy(x: 0, y: card0.size.height + testCS, duration: 1)
+            let moveLSequence = SKAction.sequence([moveCardx,moveY])
+            let moveSequence = SKAction.sequence([moveCardx,moveCardy])
+            
+            if (s == 1) {
+                card1.run(moveSequence)
+                Nlabel1.run(moveLSequence)
+                Llabel1.run(moveLSequence)
+            } else if (s == 2) {
+                card2.run(moveSequence)
+                Nlabel2.run(moveLSequence)
+                Llabel2.run(moveLSequence)
+            } else if (s == 3) {
+                card3.run(moveSequence)
+                Nlabel3.run(moveLSequence)
+                Llabel3.run(moveLSequence)
+            }
+        } else {
+            
         }
         
         
+        startedDuelBool = true
         
         
     }
