@@ -256,15 +256,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
         
-       
-        
         var randL = Int.random(in: 0...25)
         var randomL = letters[randL]
         
         letter3.append(randomL)
-        
-        
-        
         return letter3
         
         
@@ -307,10 +302,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         return number3
     }
-    func computerChooses() -> [Int]{
+    func computerChooses() ->
+    ([Int],[String]) {
         if currentDuelState != duelState.notStarted {
-            return []
+            return ([],[])
         }
+        var cChoices1 = choose3Letters()
         var cChoices = choose3Numbers()
         var c4 = 0
         var c5 = 0
@@ -337,17 +334,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Nlabel4.text = "\(c6)"
         }
         
-        return cChoices
+        return (cChoices,cChoices1)
         
     }
     
     
     func startDuel(s: Int) {
         var computerChoice1:[Int] = []
+        var computerChoice2:[String] = []
      
         
         if (currentDuelState == duelState.notStarted) {
-            computerChoice1 = computerChooses()
+            computerChoice1 = computerChooses().0
+            computerChoice2 = computerChooses().1
             currentDuelState = duelState.phase1
             let moveCardx = SKAction.moveTo(x: card2.position.x, duration: 1)
             let moveCardy = SKAction.moveTo(y: card2.position.y + card0.size.height + testCS, duration: 1)
@@ -368,6 +367,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 Nlabel3.run(moveLSequence)
                 Llabel3.run(moveLSequence)
             }
+            
         } else if (currentDuelState == duelState.phase1) {
             
         } else if (currentDuelState == duelState.phase2) {
