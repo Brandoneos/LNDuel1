@@ -39,7 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var testCS:Double = 0.0
     var duelbutton = SKSpriteNode(imageNamed: "duel")
     
-    
+    var chosenCard:SKSpriteNode = SKSpriteNode()
     
     var gameArea:CGRect
     
@@ -59,8 +59,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case endPhase
     }
     
-    var currentGameState = gameState.inGame
-    var duelState = duelState.notStarted
+    var currentDuelState = duelState.notStarted
+    
     
     struct PhysicsCategories{
         static let None : UInt32 = 0
@@ -307,9 +307,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         return number3
     }
-    func computerChooses() {
-        if duelState.notStarted = duelState.notStarted{
-            return
+    func computerChooses() -> [Int]{
+        if currentDuelState != duelState.notStarted {
+            return []
         }
         var cChoices = choose3Numbers()
         var c4 = 0
@@ -337,13 +337,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Nlabel4.text = "\(c6)"
         }
         
+        return cChoices
+        
     }
     
     
     func startDuel(s: Int) {
-        computerChooses(onlyOnce: startedDuelBool)
+        var computerChoice1:[Int] = []
+     
         
-        if (startedDuelBool == false) {
+        if (currentDuelState == duelState.notStarted) {
+            computerChoice1 = computerChooses()
+            currentDuelState = duelState.phase1
             let moveCardx = SKAction.moveTo(x: card2.position.x, duration: 1)
             let moveCardy = SKAction.moveTo(y: card2.position.y + card0.size.height + testCS, duration: 1)
             let moveY = SKAction.moveBy(x: 0, y: card0.size.height + testCS, duration: 1)
@@ -363,6 +368,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 Nlabel3.run(moveLSequence)
                 Llabel3.run(moveLSequence)
             }
+        } else if (currentDuelState == duelState.phase1) {
+            
+        } else if (currentDuelState == duelState.phase2) {
+            
+        } else if (currentDuelState == duelState.phase3) {
+            
         } else {
             
         }
@@ -437,9 +448,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //
 //            let amountDragged = pointOfTouch.x - previousPointOfTouch.x
             
-            if currentGameState == gameState.inGame {
-               
-            }
      
             
             //makes sprite disappear
